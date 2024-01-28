@@ -7,6 +7,7 @@ import Dashboard from './dashboard';
 import { NavigationContainer } from "@react-navigation/native";
 import EditBtnList from './edit';
 import About from './about';
+import Setting from './setting';
 export default function AppStack() {
     
 const Drawer = createDrawerNavigator();
@@ -15,6 +16,7 @@ const Drawer = createDrawerNavigator();
         <Drawer.Screen name="Home" options={{
           header: () => null,
         }}  component={Dashboard} />
+        <Drawer.Screen name="Setting" component={Setting} />
         <Drawer.Screen name="About" component={About} />
       </Drawer.Navigator>
   )
