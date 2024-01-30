@@ -26,7 +26,7 @@ function Dashboard({ navigation }) {
       </Pressable>
     ),
     headerRight: () => (
-      <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+      <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
         <MaterialIcons name="bluetooth" size={24} color="black" />
       </View>
     ),
@@ -42,7 +42,7 @@ function Dashboard({ navigation }) {
             </Pressable>
           ),
           headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
               <MaterialIcons name="bluetooth" size={24} color="black" />
             </View>
           ),
@@ -60,7 +60,7 @@ function Dashboard({ navigation }) {
             </Pressable>
           ),
           headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
               <MaterialIcons name="bluetooth" size={24} color="black" />
             </View>
           ),
@@ -78,7 +78,7 @@ function Dashboard({ navigation }) {
             </Pressable>
           ),
           headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
               <MaterialIcons name="bluetooth" size={24} color="black" />
             </View>
           ),
@@ -96,7 +96,7 @@ function Dashboard({ navigation }) {
             </Pressable>
           ),
           headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
               <MaterialIcons name="bluetooth" size={24} color="black" />
             </View>
           ),
@@ -117,7 +117,7 @@ function Dashboard({ navigation }) {
               </Pressable>
             ),
             headerRight: () => (
-              <View style={{ marginHorizontal: 10, marginVertical: 10 }}>
+              <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
                 <MaterialIcons name="bluetooth" size={24} color="black" />
               </View>
             ),

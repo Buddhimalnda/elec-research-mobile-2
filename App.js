@@ -19,6 +19,8 @@ import EditBtnList from './app/edit';
 import store from './store';
 import { login } from './store/auth';
 import BleComponent from './app/bluetooth/scanDevice';
+import { useBluetoothData } from './lib/Bluetooth';
+import Bluetooth from './app/bluetooth/scanDevice';
 
 
 export default function App() {
@@ -77,6 +79,11 @@ const AppRaw = ({user}) => {
         name="Profile"
         navigationKey='Profile'
         component={Profile}
+      />
+      <Stack.Screen
+        name="Bluetooth"
+        navigationKey='Bluetooth'
+        component={Bluetooth}
       />
       </Stack.Navigator>
     </NavigationContainer>

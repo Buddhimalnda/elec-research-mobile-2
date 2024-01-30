@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, Text, View, Button, FlatList } from 'react-native';
 import { BleManager } from 'react-native-ble-plx';
 
-const App = () => {
+const Bluetooth = () => {
   const [manager] = useState(new BleManager());
   const [deviceInfo, setDeviceInfo] = useState(null);
   const [data, setData] = useState('');
@@ -58,4 +58,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Bluetooth;
