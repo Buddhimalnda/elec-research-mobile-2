@@ -21,7 +21,10 @@ import Animated, {
   withSpring,
 } from "react-native-reanimated";
 import styles from "./styles";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../config/firebase";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
@@ -104,72 +107,69 @@ function Login({ navigation }) {
       runOnJS(setIsRegistering)(true);
     }
   };
-  const isLogin = () => {
-    
+  const isLogin = () => {};
+
+  const signIn = async () => {
+    setLoading(true);
+    console.log("====================================");
+    console.log(email, password);
+    console.log("====================================");
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password).then(
+        (userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          console.log(user);
+          alert("User found");
+          setLoading(false);
+        }
+      );
+      alert("User found");
+      setLoading(false);
+      navigation.navigate("Dashboard");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      alert("User not found");
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  
-  const signIn = async () => {
-    setLoading(true)
-    console.log('====================================');
-    console.log(email, password);
-    console.log('====================================');
+  const signUp = async () => {
+    setLoading(true);
     try {
-        const res = await signInWithEmailAndPassword(auth,email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log(user)
-            alert("User found")
-            setLoading(false)
-        })
-          alert("User found")
-          setLoading(false)
-          navigation.navigate("Dashboard")
-        
-    } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-        alert("User not found")
-        setLoading(false)
-    }
-    finally{
-        setLoading(false)
-    }
-}
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      ).then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        alert("User found");
 
-const signUp = async () => {
-    setLoading(true)
-    try {
-        const res = await createUserWithEmailAndPassword(auth,email, password)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log(user)
-            alert("User found")
-            
-            setDoc(doc(FIREBASE_DB, "users", userCredential.user.uid), {
-              fullName: fname
-            }).then(() => {
-              console.log("Document successfully written!");
-            });
-            setLoading(false)
-        })
-          setLoading(false)
-          navigation.navigate("Dashboard")
-        
+        setDoc(doc(FIREBASE_DB, "users", userCredential.user.uid), {
+          fullName: fname,
+        }).then(() => {
+          console.log("Document successfully written!");
+        });
+        setLoading(false);
+      });
+      setLoading(false);
+      navigation.navigate("Dashboard");
     } catch (error) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage)
-        alert("User not found")
-        setLoading(false)
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+      alert("User not found");
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
-    finally{
-        setLoading(false)
-    }
-}
+  };
 
   return (
     <Animated.View style={styles.container}>
@@ -211,21 +211,21 @@ const signUp = async () => {
             placeholderTextColor="black"
             style={styles.textInput}
             onTextInput={() => (formTyping.value = 1)}
-            onChangeText={(e)=> setEmail(e)}
+            onChangeText={(e) => setEmail(e)}
           />
           {isRegistering && (
             <TextInput
               placeholder="Full Name"
               placeholderTextColor="black"
               style={styles.textInput}
-              onChangeText={(e)=> setFname(e)}
+              onChangeText={(e) => setFname(e)}
             />
           )}
           <TextInput
             placeholder="Password"
             placeholderTextColor="black"
             style={styles.textInput}
-            onChangeText={(e)=> setPassword(e)}
+            onChangeText={(e) => setPassword(e)}
           />
           <Animated.View style={[styles.formButton, formButtonAnimatedStyle]}>
             <Pressable
@@ -234,7 +234,7 @@ const signUp = async () => {
                   withSpring(1.5),
                   withSpring(1)
                 );
-                isRegistering? signUp() :signIn();
+                isRegistering ? signUp() : signIn();
               }}
             >
               <Text style={styles.buttonText}>

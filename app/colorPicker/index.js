@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import Slider from '@react-native-community/slider';
 import { _COLORS } from '../../style';
 import CheckBox from 'react-native-check-box'
+import { setColor } from '../../db/workout';
 function ColorPicker() {
   const [red, setRed] = useState(0)
   const [green, setGreen] = useState(0)
@@ -11,13 +12,18 @@ function ColorPicker() {
   useEffect(() => {
     setHex(rgbToHex(red, green, blue))
   }, [red, green, blue, rgbToHex])
+
+  const handleSubmit = () => {
+    setColor({red, green, blue});
+  }
+
   
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.titleView}>
         <Text style={styles.titleText}>Pick Your color</Text>
-        <Button title="Submit" color={_COLORS.primary} />
+        <Button title="Submit" color={_COLORS.primary} onPress={handleSubmit()} />
         </View>
         <View style={styles.row}>
           <Text>R</Text>
