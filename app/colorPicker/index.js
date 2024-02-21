@@ -14,7 +14,8 @@ function ColorPicker() {
   }, [red, green, blue, rgbToHex])
 
   const handleSubmit = () => {
-    setColor({red, green, blue});
+    const uid = "HYWBRRXdwtN7TseWcR5AKpybrqW2"
+    setColor({red, green, blue, uid});
   }
 
   

@@ -15,13 +15,13 @@ const Home = ({auth}) => {
       {/* battery charging level */}
       <BatteryChargLevel />
       {/* Workout */}
-      <Workout />
+      {/* <Workout /> */}
       {/* Device on/off switch */}
       <MidButton />
       {/* patton creating btns */}
-      <FooterButton /> 
+      <FooterButton />
     </ScrollView>
-  )
+  );
 }
 
 export default Home

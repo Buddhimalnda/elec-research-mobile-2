@@ -16,49 +16,51 @@ function Profile() {
     //get user from firebase
     onAuthStateChanged(FIREBASE_AUTH, (snap) => {
       setUser(snap);
-      console.log('====================================');
+      console.log("====================================");
       console.log("User: ", snap);
       getUserData(snap?.uid);
-      console.log('====================================');
+      console.log("====================================");
     });
   }, [FIREBASE_AUTH, getUserData]);
   //get userdata from firebase
-  const getUserData =async (id) => {
-      const docRef = await doc(FIREBASE_DB, "users", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        setUserData(docSnap.data());
-        return docSnap.data();
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-        return null;
-      }
-  }
+  const getUserData = async (id) => {
+    const docRef = await doc(FIREBASE_DB, "users", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setUserData(docSnap.data());
+      return docSnap.data();
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      return null;
+    }
+  };
   const navigation = useNavigation();
   const logout = () => {
     FIREBASE_AUTH.signOut();
     navigation.navigate("Login");
-  }
+  };
   return (
-    <SafeAreaView style={{width: width}}>
+    <SafeAreaView style={{ width: width }}>
       <View style={StyleSheet.absoluteFill}>
         <Svg>
           <Image
-            href={require( "../../../assets/img2.jpg")}
+            href={require("../../../assets/img2.jpg")}
             width={width}
             height={200}
             preserveAspectRatio="xMidYMid slice"
           />
         </Svg>
       </View>
-      <View style={styles.avrtar} >
+      <View style={styles.avrtar}>
         <Svg>
           {/* <ClipPath id="clipPathId">
           </ClipPath> */}
           <Image
-            href={require("../../../assets/img3.jpg")}
+            href={
+              "https://cdn.discordapp.com/attachments/956724850079195196/1056727055812808744/286907769_3324072301203064_342994825224985512_n.jpg"
+            }
             width={200}
             height={200}
             // clipPath="url(#clipPathId)"
@@ -66,19 +68,31 @@ function Profile() {
           />
         </Svg>
       </View>
-      <View style={{marginTop: 20}}>
-        <Text style={{textAlign: "center", fontSize: 30}}>{userData?.fullname}</Text>
-        <Text style={{textAlign: "center", fontSize: 15}}>User</Text>
+      <View style={{ marginTop: 20 }}>
+        <Text style={{ textAlign: "center", fontSize: 30 }}>
+          {userData?.fullName}
+        </Text>
+        <Text style={{ textAlign: "center", fontSize: 15 }}>User</Text>
       </View>
-      <View style={{marginTop: 20}}>
-        <Text style={{textAlign: "center", fontSize: 15}}>Phone: {userData?.phone}</Text>
-        <Text style={{textAlign: "center", fontSize: 15}}>Email: {user?.email} </Text>
-        <Text style={{textAlign: "center", fontSize: 15}}>Address: {userData?.address || "enter"}</Text>
+      <View style={{ marginTop: 20 }}>
+        <Text style={{ textAlign: "center", fontSize: 15 }}>
+          Phone: {userData?.phone}
+        </Text>
+        <Text style={{ textAlign: "center", fontSize: 15 }}>
+          Email: {user?.email}{" "}
+        </Text>
+        <Text style={{ textAlign: "center", fontSize: 15 }}>
+          Address: {userData?.address || "enter"}
+        </Text>
       </View>
       <View style={styles.btnView}>
-        <Button title="Edit"  color={_COLORS.primary} onPress={()=> navigation.navigate("EditProfile")}  />
+        <Button
+          title="Edit"
+          color={_COLORS.primary}
+          onPress={() => navigation.navigate("EditProfile")}
+        />
         <Button title="Share" color={_COLORS.blur} />
-        <Button title="Logout" color={_COLORS.danger} onPress={()=> FIREBASE_AUTH.signOut()} />
+        <Button title="Logout" color={_COLORS.danger} onPress={logout} />
       </View>
     </SafeAreaView>
   );

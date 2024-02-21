@@ -11,7 +11,15 @@ import {
   where,
 } from "firebase/firestore";
 import { FIREBASE_DB, FIREBASE_RDB } from "../config/firebase";
-import { child, get, onValue, ref, update } from "firebase/database";
+import {
+  child,
+  equalTo,
+  get,
+  onValue,
+  orderByChild,
+  ref,
+  update,
+} from "firebase/database";
 
 export class Workout {
   constructor(
@@ -139,36 +147,34 @@ export const getWorkoutlist = async (user_id) => {
   return workoutRef;
 };
 
-export const getStepCount = async () => {
+export const getStepCount = async ({ user_id, date }) => {
   // realtime database
-  const stepCountref = ref(FIREBASE_RDB);
   let stepCount = 0;
-  //   await get(child(stepCountref, "/step")).then((snapshot) => {
-  //     if (snapshot.exists()) {
-  //       console.log(snapshot.val());
-  //       stepCount = snapshot.val();
-  //     } else {
-  //       console.log("No data available");
-  //     }
-  //   }).catch((error) => {
-  //     console.error(error);
-  //   });
-  await onValue(ref(FIREBASE_RDB, "/count/step"), (snapshot) => {
+  // Create a query to find the node where the date is equal to the queryDate
+  const stepsQuery = query(ref(FIREBASE_RDB, user_id + "/count/step/step"));
+
+  // Listen for the data that matches the query
+  onValue(stepsQuery, (snapshot) => {
     if (snapshot.exists()) {
-    //   console.log(snapshot.val());
+      // snapshot.forEach((childSnapshot) => {
+      //   // Here, you access the 'step' value of each item that matches the query date
+      //   const data = childSnapshot.val();
+      //   console.log(`Step on ${queryDate}: ${data.step}`);
+      //   stepCount = data.step;
+      // });
       stepCount = snapshot.val();
     } else {
-      console.log("No data available");
+      console.log("No data available for the given date.");
     }
   });
 
   return stepCount;
 };
 
-export const setColor = async ({red, green, blue}) => {
+export const setColor = async ({ red, green, blue, uid }) => {
   const updates = {};
-  updates["/led/red"] = red;
-  updates["/led/green"] = green;
-  updates["/led/blue"] = blue;
-  await update(ref(FIREBASE_RDB), updates)
-}
+  updates["/" + uid + "/led/red"] = red;
+  updates["/" + uid + "/led/green"] = green;
+  updates["/" + uid + "/led/blue"] = blue;
+  await update(ref(FIREBASE_RDB), updates);
+};

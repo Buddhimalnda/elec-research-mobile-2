@@ -33,26 +33,33 @@ function Dashboard({ navigation }) {
   }
   return (
     <View style={styles.container}>
-      <Tab.Navigator >
+      <Tab.Navigator>
         <Tab.Screen
           name="Home"
-          options={{headerLeft: () => (
-            <Pressable style={{ marginHorizontal: 10, marginVertical: 10 }} onPress={()=> navigation.toggleDrawer()}>
-              <Entypo name="menu" size={34} color="black" />
-            </Pressable>
-          ),
-          headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
-              <MaterialIcons name="bluetooth" size={24} color="black" />
-            </View>
-          ),
+          options={{
+            headerLeft: () => (
+              <Pressable
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onPress={() => navigation.toggleDrawer()}
+              >
+                <Entypo name="menu" size={34} color="black" />
+              </Pressable>
+            ),
+            headerRight: () => (
+              <View
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onTouchStart={() => navigation.navigate("Bluetooth")}
+              >
+                <MaterialIcons name="bluetooth" size={24} color="black" />
+              </View>
+            ),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name="home" color={color} size={size} />
             ),
           }}
           component={Home}
         />
-         <Tab.Screen
+        {/* <Tab.Screen
           name="Tracking"
           options={{headerLeft: () => (
             <Pressable style={{ marginHorizontal: 10, marginVertical: 10 }} onPress={()=> navigation.toggleDrawer()}>
@@ -69,40 +76,54 @@ function Dashboard({ navigation }) {
             ),
           }}
           component={Tracking}
-        />
-        <Tab.Screen
+        /> */}
+        {/* <Tab.Screen
           name="History"
-          options={{headerLeft: () => (
-            <Pressable style={{ marginHorizontal: 10, marginVertical: 10 }} onPress={()=> navigation.toggleDrawer()}>
-              <Entypo name="menu" size={34} color="black" />
-            </Pressable>
-          ),
-          headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
-              <MaterialIcons name="bluetooth" size={24} color="black" />
-            </View>
-          ),
+          options={{
+            headerLeft: () => (
+              <Pressable
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onPress={() => navigation.toggleDrawer()}
+              >
+                <Entypo name="menu" size={34} color="black" />
+              </Pressable>
+            ),
+            headerRight: () => (
+              <View
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onTouchStart={() => navigation.navigate("Bluetooth")}
+              >
+                <MaterialIcons name="bluetooth" size={24} color="black" />
+              </View>
+            ),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="history" size={size} color={color} />
             ),
           }}
           component={History}
-        /> 
+        /> */}
         <Tab.Screen
           name="Travel"
-          options={{headerLeft: () => (
-            <Pressable style={{ marginHorizontal: 10, marginVertical: 10 }} onPress={()=> navigation.toggleDrawer()}>
-              <Entypo name="menu" size={34} color="black" />
-            </Pressable>
-          ),
-          headerRight: () => (
-            <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
-              <MaterialIcons name="bluetooth" size={24} color="black" />
-            </View>
-          ),
+          options={{
+            headerLeft: () => (
+              <Pressable
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onPress={() => navigation.toggleDrawer()}
+              >
+                <Entypo name="menu" size={34} color="black" />
+              </Pressable>
+            ),
+            headerRight: () => (
+              <View
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onTouchStart={() => navigation.navigate("Bluetooth")}
+              >
+                <MaterialIcons name="bluetooth" size={24} color="black" />
+              </View>
+            ),
             tabBarIcon: ({ color, size }) => (
               <FontAwesome5 name="running" size={size} color={color} />
-            )
+            ),
           }}
           component={Travel}
         />
@@ -110,14 +131,21 @@ function Dashboard({ navigation }) {
           name="Me"
           options={{
             tabBarIcon: ({ color, size }) => (
-              <FontAwesome name="user" size={size} color={color}   />
-            ),headerLeft: () => (
-              <Pressable style={{ marginHorizontal: 10, marginVertical: 10 }} onPress={()=> navigation.toggleDrawer()}>
+              <FontAwesome name="user" size={size} color={color} />
+            ),
+            headerLeft: () => (
+              <Pressable
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onPress={() => navigation.toggleDrawer()}
+              >
                 <Entypo name="menu" size={34} color="black" />
               </Pressable>
             ),
             headerRight: () => (
-              <View style={{ marginHorizontal: 10, marginVertical: 10 }} onTouchStart={()=> navigation.navigate("Bluetooth")}>
+              <View
+                style={{ marginHorizontal: 10, marginVertical: 10 }}
+                onTouchStart={() => navigation.navigate("Bluetooth")}
+              >
                 <MaterialIcons name="bluetooth" size={24} color="black" />
               </View>
             ),

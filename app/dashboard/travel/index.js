@@ -5,19 +5,31 @@ import StepTime from "./time";
 import { _COLORS } from "../../../style";
 import CountryWiseAnalysis from "./chart";
 import { getStepCount } from "../../../db/workout";
+import { onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../../config/firebase";
 
 function Travel() {
   const [steps, setSteps] = useState(0);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      if (user) {
+        setUser(user);
+        //log
+        console.log("User: ", user.uid);
+      }
+    });
+  }, [onAuthStateChanged]);
   useEffect(() => {
     const interval = setInterval(() => {
-      getStepCount()
+      getStepCount({ user_id: user?.uid, date: "2024-02-21" })
         .then((res) => {
           setSteps(res);
         })
         .catch((e) => {
           console.log("Error: ", e);
-        })
-      }, 1000);
+        });
+    }, 1000);
     return () => clearInterval(interval);
   }, [setSteps, getStepCount]);
 

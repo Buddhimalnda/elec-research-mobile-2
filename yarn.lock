@@ -1230,17 +1230,10 @@
     mv "~2"
     safe-json-stringify "~1"
 
-<<<<<<< HEAD
 "@expo/cli@0.17.4":
   version "0.17.4"
   resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-0.17.4.tgz#ac720bc03e16cc9f4130b4319118053743b50395"
   integrity sha512-6pswecVC9qCBp1qa004D2HjPeXKYDaw/PhyUOsqnF7AUCwunlKa1tJO0Ik8zxzF68kuywIOXUnTJl74Z2aHqiw==
-=======
-"@expo/cli@0.17.3":
-  version "0.17.3"
-  resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-0.17.3.tgz#0763696671522062e5592411d02952ed905d4838"
-  integrity sha512-lIK8igsEQxTh4WuDlcEhE0wAJcDrAyjWDF00phdmwuSCpE5SaEXNlddOXvGxEVKPhUxHZUFo9NbfoQC+JVmkfA==
->>>>>>> 283ab36dd356df0568f93f48b6aaee5bfcae8155
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/code-signing-certificates" "0.0.5"
@@ -4044,12 +4037,19 @@ expo-status-bar@~1.11.1:
   resolved "https://registry.npmjs.org/expo-status-bar/-/expo-status-bar-1.11.1.tgz"
   integrity sha512-ddQEtCOgYHTLlFUe/yH67dDBIoct5VIULthyT3LRJbEwdpzAgueKsX2FYK02ldh440V87PWKCamh7R9evk1rrg==
 
+expo-system-ui@^2.9.3:
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/expo-system-ui/-/expo-system-ui-2.9.3.tgz#845c7615a6ede9d959dff1719df3d9392a43c080"
+  integrity sha512-RNFNBLJ9lhnjOGrHhtfDc15Ry/lF+SA4kwulmHzYGqaTeYvsL9q0K0+m9qmxuDdrbKJkuurvzvjVylDNnKNFVg==
+  dependencies:
+    "@react-native/normalize-color" "^2.0.0"
+    debug "^4.3.2"
+
 expo-updates-interface@~0.15.1:
   version "0.15.3"
   resolved "https://registry.npmjs.org/expo-updates-interface/-/expo-updates-interface-0.15.3.tgz"
   integrity sha512-uLvsbaCmUsXgJqeen8rYH/jPr874ZUCXEvWpKHxrCv5/XATPlYEaDuecbNSGQ+cu78i6MdtB4BHOwZmoH2d47A==
 
-<<<<<<< HEAD
 expo@~50.0.5:
   version "50.0.5"
   resolved "https://registry.yarnpkg.com/expo/-/expo-50.0.5.tgz#16c13eca981990fce2c884e974885935aca74da8"
@@ -4057,15 +4057,6 @@ expo@~50.0.5:
   dependencies:
     "@babel/runtime" "^7.20.0"
     "@expo/cli" "0.17.4"
-=======
-expo@~50.0.4:
-  version "50.0.4"
-  resolved "https://registry.yarnpkg.com/expo/-/expo-50.0.4.tgz#3ec5349a58b8b3264bc2f218d85b673beb352a99"
-  integrity sha512-8QWBvYZyKFd7pHxbtri8/ZITBR19QbrW2IkezAhs3ZOHR2kluSgNfyo9ojAe7GnOnE8hCB6Xe83Dbm0R3Ealhw==
-  dependencies:
-    "@babel/runtime" "^7.20.0"
-    "@expo/cli" "0.17.3"
->>>>>>> 283ab36dd356df0568f93f48b6aaee5bfcae8155
     "@expo/config" "8.5.4"
     "@expo/config-plugins" "7.8.4"
     "@expo/metro-config" "0.17.3"
