@@ -75,10 +75,10 @@ export default function SignUp({ navigation }) {
               device: deviceId,
               email: email,
               password: password,
-            },
-            wifi: {
-              ssid: "N/A",
-              password: "N/A",
+              wifi: {
+                ssid: "N/A",
+                password: "N/A",
+              },
             },
           });
         });

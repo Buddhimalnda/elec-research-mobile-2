@@ -56,7 +56,7 @@ function Edit() {
     if (docSnap.exists()) {
       console.log("Document data:", docSnap.data());
       setUserData(docSnap.data());
-      const wifiRef = ref(FIREBASE_RDB, id + "/wifi/");
+      const wifiRef = ref(FIREBASE_RDB, id + "user/wifi/");
       await onValue(wifiRef, (snapshot) => {
         setWifiSsid(snapshot.val().ssid);
         setWifiPassword(snapshot.val().password);
@@ -92,8 +92,8 @@ function Edit() {
       });
 
     const updates = {};
-    updates[user?.uid + "/wifi/ssid"] = wifiSsid;
-    updates[user?.uid + "/wifi/password"] = wifiPassword;
+    updates[user?.uid + "user/wifi/ssid"] = wifiSsid;
+    updates[user?.uid + "user/wifi/password"] = wifiPassword;
     await update(ref(FIREBASE_RDB), updates)
       .then(() => {
         console.log("Document successfully updated!");

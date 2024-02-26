@@ -1,4 +1,10 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "files.associations": {
+        "*.embeddedhtml": "html",
+        "*.js": "javascriptreact",
+        "fstream": "cpp",
+        "xlocmes": "cpp"
+    }
 }

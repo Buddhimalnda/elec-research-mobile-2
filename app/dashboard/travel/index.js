@@ -4,12 +4,14 @@ import Today from "./Today";
 import StepTime from "./time";
 import { _COLORS } from "../../../style";
 import CountryWiseAnalysis from "./chart";
-import { getStepCount } from "../../../db/workout";
+import { getStepCount, stepList } from "../../../db/stepCount";
 import { onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "../../../config/firebase";
 
 function Travel() {
   const [steps, setSteps] = useState(0);
+  const [stepList, setStepList] = useState([]);
+
   const [user, setUser] = useState(null);
   useEffect(() => {
     onAuthStateChanged(FIREBASE_AUTH, (user) => {
@@ -20,6 +22,18 @@ function Travel() {
       }
     });
   }, [onAuthStateChanged]);
+
+  useEffect(() => {
+    const unsubcribe = setStepList()
+      .then((res) => {
+        setStepList(res);
+      })
+      .catch((e) => {
+        console.log("Error: ", e);
+      });
+    return () => unsubcribe;
+  }, [stepList]);
+
   useEffect(() => {
     const interval = setInterval(() => {
       getStepCount({ user_id: user?.uid, date: "2024-02-21" })
@@ -31,7 +45,7 @@ function Travel() {
         });
     }, 1000);
     return () => clearInterval(interval);
-  }, [setSteps, getStepCount]);
+  }, [getStepCount]);
 
   return (
     <ScrollView>
