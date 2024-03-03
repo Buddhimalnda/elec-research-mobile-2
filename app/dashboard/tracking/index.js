@@ -78,8 +78,8 @@ function Tracking() {
   }, [workoutDetails])
 
   
+  const [submittedData, setSubmittedData] = useState("");
   const [panelVisible, setPanelVisible] = useState(false);
-  const [submittedData, setSubmittedData] = useState('');
 
   const handleOpenPanel = () => {
     setPanelVisible(true);

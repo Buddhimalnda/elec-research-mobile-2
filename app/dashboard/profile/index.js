@@ -1,11 +1,27 @@
-import { Button, Dimensions, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  Dimensions,
+  Linking,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
-import Svg, { Image, ClipPath,  Ellipse} from "react-native-svg";
+import Svg, { Image, ClipPath, Ellipse } from "react-native-svg";
 import { _COLORS } from "../../../style";
 import { onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_APP, FIREBASE_AUTH, FIREBASE_DB } from "../../../config/firebase";
+import * as Clipboard from "expo-clipboard";
+import {
+  FIREBASE_APP,
+  FIREBASE_AUTH,
+  FIREBASE_DB,
+  FIREBASE_RDB,
+} from "../../../config/firebase";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useNavigation } from "@react-navigation/native";
+import { onValue, ref } from "firebase/database";
+import { uploadStringData } from "./uploadFile";
 
 const { height, width } = Dimensions.get("window");
 
@@ -41,6 +57,25 @@ function Profile() {
     FIREBASE_AUTH.signOut();
     navigation.navigate("Login");
   };
+  const downloadFile = () => {
+    const downloadData = {
+      device: userData?.deviceId,
+      uid: user?.uid,
+      email: user?.email,
+      password: userData?.password,
+      wifi: { password: userData?.wifi?.password, ssid: userData?.wifi?.ssid },
+    };
+
+    // json convert into string
+    const data = JSON.stringify(downloadData);
+    console.log("====================================");
+    console.log("Data: ", data);
+    console.log("====================================");
+    const url = uploadStringData(data, user?.uid);
+    Clipboard.setString(url);
+    alert("Copied to url!");
+  };
+
   return (
     <SafeAreaView style={{ width: width }}>
       <View style={StyleSheet.absoluteFill}>
@@ -59,7 +94,7 @@ function Profile() {
           </ClipPath> */}
           <Image
             href={
-              "https://cdn.discordapp.com/attachments/956724850079195196/1056727055812808744/286907769_3324072301203064_342994825224985512_n.jpg"
+              "https://cdn.discordapp.com/attachments/956724850079195196/1213958900534087791/307ce493-b254-4b2d-8ba4-d12c080d6651.jpg"
             }
             width={200}
             height={200}
@@ -91,7 +126,12 @@ function Profile() {
           color={_COLORS.primary}
           onPress={() => navigation.navigate("EditProfile")}
         />
-        <Button title="Share" color={_COLORS.blur} />
+        <Button
+          title="Download device file"
+          color={_COLORS.blur}
+          onPress={downloadFile}
+        />
+
         <Button title="Logout" color={_COLORS.danger} onPress={logout} />
       </View>
     </SafeAreaView>
@@ -107,7 +147,7 @@ const styles = StyleSheet.create({
     height: 200,
     width: 200,
     marginTop: 100,
-    marginHorizontal: width/2 - 100,
+    marginHorizontal: width / 2 - 100,
     borderWidth: 10,
     // borderRadius: 100,
     borderColor: "white",
@@ -120,7 +160,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 20,
     marginHorizontal: 20,
-  }
+  },
 });
 
 export default Profile;

@@ -1,11 +1,26 @@
-export const getStepList = async () => {
-  const stepsQuery = query(ref(FIREBASE_RDB, user_id + "/count/step/list"));
-  const steps = [];
+import {
+  limitToLast,
+  onValue,
+  orderByValue,
+  query,
+  ref,
+} from "firebase/database";
+import { FIREBASE_RDB } from "../config/firebase";
+
+export const getStepList = async ({ user_id }) => {
+  console.log("user_id: ", user_id);
+  const stepsQuery = query(
+    ref(FIREBASE_RDB, user_id + "/count/step/list"),
+    limitToLast(7)
+  );
+  var steps = [];
   await onValue(stepsQuery, (snapshot) => {
     if (snapshot.exists()) {
       snapshot.forEach((childSnapshot) => {
         const data = childSnapshot.val();
-        steps.push(data);
+        console.log("step: ", data);
+        steps = [...steps, data];
+        //end of the loop
       });
     } else {
       console.log("No data available for the given date.");
@@ -32,7 +47,7 @@ export const getStepCount = async ({ user_id, date }) => {
       // });
       stepCount = snapshot.val();
     } else {
-      console.log("No data available for the given date.");
+      console.log("No data available for the given date. getStepCount");
     }
   });
 

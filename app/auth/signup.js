@@ -50,6 +50,7 @@ export default function SignUp({ navigation }) {
           dob: "N/A",
           gender: "N/A",
           bodyComposition: "N/A",
+          password: password,
         }).then(() => {
           console.log("Document successfully written!");
           //create rt database
@@ -80,6 +81,8 @@ export default function SignUp({ navigation }) {
                 password: "N/A",
               },
             },
+            sos: false,
+            deviceOn: true,
           });
         });
         set(ref(FIREBASE_RDB, "device/" + deviceId), {

@@ -82,6 +82,10 @@ function Edit() {
       dob: dob,
       gender: gender,
       bodyComposition: bodyComposition,
+      wifi: {
+        ssid: wifiSsid,
+        password: wifiPassword,
+      },
     })
       .then(() => {
         console.log("Document successfully updated!");
@@ -92,8 +96,8 @@ function Edit() {
       });
 
     const updates = {};
-    updates[user?.uid + "user/wifi/ssid"] = wifiSsid;
-    updates[user?.uid + "user/wifi/password"] = wifiPassword;
+    updates[user?.uid + "/user/wifi/ssid"] = wifiSsid;
+    updates[user?.uid + "/user/wifi/password"] = wifiPassword;
     await update(ref(FIREBASE_RDB), updates)
       .then(() => {
         console.log("Document successfully updated!");
