@@ -1,37 +1,94 @@
 import { Button, Pressable, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
-import { AntDesign } from '@expo/vector-icons'; 
-import { Ionicons } from '@expo/vector-icons';
-import {_COLORS} from '../../style'
-import Slider from '@react-native-community/slider';
+import React, { useEffect, useState } from "react";
+import { AntDesign } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
+import { _COLORS } from "../../style";
+import Slider from "@react-native-community/slider";
 
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useNavigation } from "@react-navigation/native";
-import ColorPicker from '../colorPicker';
+import ColorPicker from "../colorPicker";
+import { ref, update } from "firebase/database";
+import { onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_RDB } from "../../config/firebase";
 const MidButton = () => {
   const navigation = useNavigation();
-  
-const Stack = createNativeStackNavigator();
+  const [pressCount, setPressCount] = useState(0);
+  const [deviceOn, setDeviceOn] = useState(false);
+  const [sos, setSos] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (userData) => {
+      if (userData) {
+        console.log("User: ", userData.uid);
+        setUser(userData);
+      }
+    });
+  }, []);
+
+  const bigButton = async () => {
+    //get previous state
+    setDeviceOn((deviceOn) => !deviceOn);
+    const updates = {};
+    updates[user?.uid + "/user/deviceOn"] = true;
+    await update(ref(FIREBASE_RDB), updates)
+      .then(() => {
+        console.log("Document successfully updated!");
+        alert("Device " + (deviceOn ? "Off" : "On") + " Successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+  };
+  const bigButtonLongPress = async () => {
+    //start SOS
+    // update firebase rtdb
+    setSos((sos) => !sos);
+    const updates = {};
+    updates[user?.uid + "/user/sos"] = true;
+    await update(ref(FIREBASE_RDB), updates)
+      .then(() => {
+        console.log("Document successfully updated!");
+        alert("SOS " + (sos ? "Off" : "On") + " Successfully");
+      })
+      .catch((error) => {
+        console.error("Error updating document: ", error);
+      });
+    // update state
+    // update button color
+  };
+
+  const Stack = createNativeStackNavigator();
   return (
     <View style={styles.container}>
       <View style={styles.sideBar}>
-        <Pressable style={[styles.sideBtn, styles.shadowBox]} onPress={()=> navigation.navigate("EditButtonList")}>
+        <Pressable
+          style={[styles.sideBtn, styles.shadowBox]}
+          onPress={() => navigation.navigate("EditButtonList")}
+        >
           <AntDesign name="edit" size={30} color="white" />
         </Pressable>
-        <Pressable style={[styles.sideBtn, styles.shadowBox]} onPress={()=> alert("Saving current Details")}>
+        <Pressable
+          style={[styles.sideBtn, styles.shadowBox]}
+          onPress={() => alert("Saving current Details")}
+        >
           <AntDesign name="save" size={30} color="white" />
         </Pressable>
       </View>
       <View style={styles.midBar}>
-      
-        <Pressable style={[styles.midBtn, styles.shadowBox]}>
-        <AntDesign name="poweroff" size={100} color="white" />
+        <Pressable
+          style={[styles.midBtn, styles.shadowBox]}
+          onLongPress={bigButtonLongPress}
+          onPress={bigButton}
+        >
+          <AntDesign name="poweroff" size={100} color="white" />
         </Pressable>
       </View>
       <View style={styles.sliderBar}>
         <Text style={styles.test}>Brightness</Text>
         <Slider
-          style={{width: 200, height: 40}}
+          style={{ width: 200, height: 40 }}
           minimumValue={0}
           maximumValue={255}
           minimumTrackTintColor={_COLORS.primary}
@@ -40,16 +97,22 @@ const Stack = createNativeStackNavigator();
         />
       </View>
       <View style={styles.sideBar}>
-        <Pressable style={[styles.sideBtn, styles.shadowBox]} onPress={()=> navigation.navigate("ColorPicker")}>
+        <Pressable
+          style={[styles.sideBtn, styles.shadowBox]}
+          onPress={() => navigation.navigate("ColorPicker")}
+        >
           <Ionicons name="speedometer-outline" size={24} color="white" />
         </Pressable>
-        <Pressable style={[styles.sideBtn, styles.shadowBox]}  onPress={()=> alert("Reset to Default")}>
+        <Pressable
+          style={[styles.sideBtn, styles.shadowBox]}
+          onPress={() => alert("Reset to Default")}
+        >
           <AntDesign name="retweet" size={24} color="white" />
         </Pressable>
       </View>
     </View>
-  )
-}
+  );
+};
 
 export default MidButton
 

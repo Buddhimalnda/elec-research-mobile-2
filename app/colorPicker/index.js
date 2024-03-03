@@ -4,32 +4,43 @@ import Slider from '@react-native-community/slider';
 import { _COLORS } from '../../style';
 import CheckBox from 'react-native-check-box'
 import { setColor } from '../../db/workout';
+import { onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH } from "../../config/firebase";
 function ColorPicker() {
-  const [red, setRed] = useState(0)
-  const [green, setGreen] = useState(0)
-  const [blue, setBlue] = useState(0)
-  const [hex, setHex] = useState("#000000")
+  const [red, setRed] = useState(0);
+  const [green, setGreen] = useState(0);
+  const [blue, setBlue] = useState(0);
+  const [hex, setHex] = useState("#000000");
   useEffect(() => {
-    setHex(rgbToHex(red, green, blue))
-  }, [red, green, blue, rgbToHex])
+    setHex(rgbToHex(red, green, blue));
+  }, [red, green, blue, rgbToHex]);
+  const [uid, setUid] = useState();
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (user) => {
+      setUid(user.uid);
+    });
+  }, [onAuthStateChanged]);
 
   const handleSubmit = () => {
-    const uid = "HYWBRRXdwtN7TseWcR5AKpybrqW2"
-    setColor({red, green, blue, uid});
-  }
+    setColor({ red, green, blue, uid });
+  };
 
-  
   return (
     <View style={styles.container}>
       <View>
         <View style={styles.titleView}>
-        <Text style={styles.titleText}>Pick Your color</Text>
-        <Button title="Submit" color={_COLORS.primary} onPress={handleSubmit()} />
+          <Text style={styles.titleText}>Pick Your color</Text>
+          <Button
+            title="Submit"
+            color={_COLORS.primary}
+            onPress={handleSubmit}
+          />
         </View>
         <View style={styles.row}>
           <Text>R</Text>
           <Slider
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             minimumValue={0}
             maximumValue={255}
             minimumTrackTintColor={_COLORS.red}
@@ -41,7 +52,7 @@ function ColorPicker() {
         <View style={styles.row}>
           <Text>G</Text>
           <Slider
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             minimumValue={0}
             maximumValue={255}
             minimumTrackTintColor={_COLORS.green}
@@ -53,7 +64,7 @@ function ColorPicker() {
         <View style={styles.row}>
           <Text>B</Text>
           <Slider
-            style={{width: 200, height: 40}}
+            style={{ width: 200, height: 40 }}
             minimumValue={0}
             maximumValue={255}
             minimumTrackTintColor={_COLORS.blur}
@@ -63,15 +74,25 @@ function ColorPicker() {
           <Text>{blue}</Text>
         </View>
       </View>
-      <View style={{display: "flex", justifyContent:"center", alignItems: "center"}}>
-        <View style={{backgroundColor: `rgba(${red},${green},${blue},1)`, height: 50, width: 100, margin: 20}}></View>
+      <View
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <View
+          style={{
+            backgroundColor: `rgba(${red},${green},${blue},1)`,
+            height: 50,
+            width: 100,
+            margin: 20,
+          }}
+        ></View>
         <Text>{hex}</Text>
       </View>
-      
-      
-
     </View>
-  )
+  );
 }
 const rgbToHex = (r, g, b)=> {
   // Ensure RGB values are within the 0-255 range

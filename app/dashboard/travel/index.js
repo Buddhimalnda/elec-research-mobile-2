@@ -30,7 +30,7 @@ function Travel() {
       getUserData(snap?.uid);
       console.log("====================================");
     });
-  }, [getUserData]);
+  }, [onAuthStateChanged]);
 
   const getUserData = async (id) => {
     const docRef = await doc(FIREBASE_DB, "users", id);

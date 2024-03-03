@@ -55,7 +55,11 @@ export default function SignUp({ navigation }) {
           console.log("Document successfully written!");
           //create rt database
           set(ref(FIREBASE_RDB, user.uid + "/"), {
-            batterty: 0,
+            batterty: {
+              date: new Date().toISOString().split("T")[0],
+              time: new Date().toISOString().split("T")[1],
+              count: 0,
+            },
             count: {
               step: {
                 step: 0,

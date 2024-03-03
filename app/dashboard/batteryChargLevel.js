@@ -1,32 +1,71 @@
 import { View, Text, StyleSheet } from 'react-native'
-import React from 'react'
-import { _COLORS } from '../../style'
-{/* battery charging level 
+import React, { useEffect, useState } from "react";
+import { _COLORS } from "../../style";
+import { onAuthStateChanged } from "firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_RDB } from "../../config/firebase";
+import { onValue, ref } from "firebase/database";
+{
+  /* battery charging level 
         props:{
             batteryChargLevel: 0
             lastUpdate: date & time
         }
-*/}
+*/
+}
 
-const BatteryChargLevel = ({props}) => {
+const BatteryChargLevel = ({ props }) => {
+  const [user, setUser] = useState(null);
+  const [userDataSet, setUserData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [batterty, setBatterty] = useState(0);
+  const [lastUpdate, setLastUpdate] = useState({ date: "", time: "" });
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, (userData) => {
+      if (userData) {
+        console.log("User: ", userData.uid);
+        setUser(userData);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    setLoading(false);
+    if (user) {
+      onValue(ref(FIREBASE_RDB, user?.uid + "/"), (snap) => {
+        console.log("Data: ", snap.val());
+        setUserData(snap.val());
+        setBatterty(snap.val().batterty?.count);
+        setLastUpdate({
+          date: snap.val().batterty?.date,
+          time: snap.val().batterty?.time,
+        });
+        setLoading(true);
+      });
+    }
+  }, [user]);
+
   return (
-    <View style={styles.card} >
+    <View style={styles.card}>
       <View style={styles.cardTitle}>
         <Text style={styles.cardTitleText}>Battery Charging Level</Text>
       </View>
       <View style={styles.cardBody}>
         <View style={styles.cardBodyPart}>
           <Text style={styles.cardBodyTextLg}>Last Update: </Text>
-          <Text style={[styles.cardBodyTextSm ]}>07 jan 2024 01:05:00</Text>
+          <Text style={[styles.cardBodyTextSm]}>
+            {lastUpdate.date} {lastUpdate.time}
+          </Text>
         </View>
         <View style={styles.cardBodyPart}>
-          <Text style={[styles.cardBodyTextLgs]}>75%</Text>
-
+          <Text style={[styles.cardBodyTextLgs]}>
+            {loading ? batterty : "00"} %
+          </Text>
         </View>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
     card:{
