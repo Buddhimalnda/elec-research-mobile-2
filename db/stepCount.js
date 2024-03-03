@@ -30,7 +30,7 @@ export const getStepList = async ({ user_id }) => {
   return steps;
 };
 
-export const getStepCount = async ({ user_id, date }) => {
+export const getStepCount = async ({ user_id }) => {
   // realtime database
   let stepCount = 0;
   // Create a query to find the node where the date is equal to the queryDate
@@ -60,5 +60,5 @@ export const calorieBurn = ({ met, weight, duration }) => {
   const durationHours = parseFloat(duration);
   const caloriesPerMinute = (metValue * weightKg * 3.5) / 200;
   const totalCalories = caloriesPerMinute * durationHours * 60; // convert hours to minutes
-  return totalCalories;
+  return totalCalories.toFixed(2);
 };

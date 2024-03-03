@@ -11,7 +11,6 @@ import React, { useEffect, useState } from "react";
 import Svg, { Image, ClipPath, Ellipse } from "react-native-svg";
 import { _COLORS } from "../../../style";
 import { onAuthStateChanged } from "firebase/auth";
-import * as Clipboard from "expo-clipboard";
 import {
   FIREBASE_APP,
   FIREBASE_AUTH,
@@ -72,8 +71,24 @@ function Profile() {
     console.log("Data: ", data);
     console.log("====================================");
     const url = uploadStringData(data, user?.uid);
-    Clipboard.setString(url);
-    alert("Copied to url!");
+    url.then((res) => {
+      console.log("====================================");
+      console.log("URL: ", res);
+      console.log("====================================");
+      openURL(res);
+    });
+  };
+  const openURL = async (url) => {
+    // Checking if the link is supported for links with custom URL scheme.
+    const supported = await Linking.canOpenURL(url);
+
+    if (supported) {
+      // Opening the link with some app, if the URL scheme is "http" or "https" the web link should be opened
+      // by some browser in the mobile
+      await Linking.openURL(url);
+    } else {
+      console.log(`Don't know how to open this URL: ${url}`);
+    }
   };
 
   return (

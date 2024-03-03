@@ -11,28 +11,44 @@ import {
   stepList,
 } from "../../../db/stepCount";
 import { onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH } from "../../../config/firebase";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../config/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { set } from "firebase/database";
 
 function Travel() {
   const [steps, setSteps] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
-  const [user, setUser] = useState(null);
   const [calorieBurned, setCalorieBurned] = useState(0);
+  const [user, setUser] = useState();
+  const [userData, setUserData] = useState({});
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, (user) => {
-      if (user) {
-        setUser(user);
-        //log
-        console.log("User: ", user.uid);
-      }
+    //get user from firebase
+    onAuthStateChanged(FIREBASE_AUTH, (snap) => {
+      setUser(snap);
+      console.log("====================================");
+      console.log("User: ", snap);
+      getUserData(snap?.uid);
+      console.log("====================================");
     });
-  }, [onAuthStateChanged]);
+  }, [getUserData]);
+
+  const getUserData = async (id) => {
+    const docRef = await doc(FIREBASE_DB, "users", id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      setUserData(docSnap.data());
+      return docSnap.data();
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      return null;
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       getStepCount({
-        user_id: "HYWBRRXdwtN7TseWcR5AKpybrqW2",
-        date: "2024-02-21",
+        user_id: user?.uid,
       })
         .then((res) => {
           setSteps(res);
@@ -42,7 +58,11 @@ function Travel() {
           console.log("Error: ", e);
         });
       setCalorieBurned(
-        calorieBurn({ met: 3.8, weight: 60, duration: (steps * 10) / 3600 })
+        calorieBurn({
+          met: 3.8,
+          weight: userData?.weight == "N/A" ? 60 : userData?.weight,
+          duration: (steps * 10) / 3600,
+        })
       );
     }, 1000);
     return () => clearInterval(interval);
@@ -71,7 +91,7 @@ function Travel() {
         <Today steps={steps} />
         <StepTime
           calories={calorieBurned}
-          distance={100}
+          distance={steps * 0.000762}
           time_duration={"01:10:00"}
         />
         {/* <CountryWiseAnalysis /> */}
