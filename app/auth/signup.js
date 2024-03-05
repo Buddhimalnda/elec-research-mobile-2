@@ -69,6 +69,8 @@ export default function SignUp({ navigation }) {
                     step: 0,
                   },
                 ],
+                date: "",
+                time: "",
               },
             },
             led: {

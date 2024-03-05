@@ -66,7 +66,7 @@ function Travel() {
       );
     }, 1000);
     return () => clearInterval(interval);
-  }, [getStepCount]);
+  }, [getStepCount, user, userData]);
   if (isLoaded) {
     return (
       <ScrollView>
@@ -92,7 +92,7 @@ function Travel() {
         <StepTime
           calories={calorieBurned}
           distance={steps * 0.000762}
-          time_duration={"01:10:00"}
+          time_duration={}
         />
         {/* <CountryWiseAnalysis /> */}
       </ScrollView>
